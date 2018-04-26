@@ -1,3 +1,11 @@
 .row {
   display: flex;
 }
+
+button {
+  width: 40px;
+}
+
+button.doubleWide {
+  width: 80px;
+}
