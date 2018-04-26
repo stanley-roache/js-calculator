@@ -9,3 +9,17 @@ button {
 button.doubleWide {
   width: 80px;
 }
+
+.container {
+  text-align: center;
+}
+
+#calculator {
+  width: 160px;
+  display: inline-block;
+}
+
+#display {
+  width: 100%;
+  text-align: right;
+}
