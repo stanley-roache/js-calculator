@@ -3,10 +3,9 @@ var stack = [],
     temp = '',
     operators = {
       '^': (a,b) => Math.pow(a,b),
-      'holder': (a,b) => null,
       'x': (a,b) => a*b,
       '/': (a,b) => a/b,
-      '+': (a,b) => a+b,
+      '+': (a,b) => Number(a)+Number(b),
       '-': (a,b) => a-b,
     }
 
@@ -61,29 +60,25 @@ $('document').ready(function() {
 
 // takes array of entries and evaluates
 function evaluate(stack) {
-  let alterStack = [];
-  // iterate over and perform all ^ operations
-  for (let i = 0; i < stack.length; i++) {
-    if (stack[i] == '^') {
-      alterStack.push(operators[stack[i]](alterStack.pop(),stack[i+1]));
-      i++;
-    } else alterStack.push(stack[i]);
-  }
-  stack = [];
-  // go over the remainder performing all multiplication and division
-  for (let i = 0; i < alterStack.length; i++) {
-    if (alterStack[i] == 'x' || alterStack[i] == '/') {
-      stack.push(operators[alterStack[i]](stack.pop(),alterStack[i+1]));
-      i++;
-    } else stack.push(alterStack[i]);
-  }
-  // finally perform all addition and subtraction
-  var result = Number(stack[0]);
-  for (let i = 1; i < stack.length; i+=2) {
-    if (stack[i] == '+') result += Number(stack[i+1]);
-    else result -= stack[i+1];
-  }
-  // clear stack
-  stack = [];
+  stack = performType(stack, ['^']);
+  stack = performType(stack, ['x', '/']);
+  stack = performType(stack, ['+','-']);
+  result = stack.pop();
   return result || "something's wrong";
+}
+
+// this loops over the stack and performs the specified operations
+function performType(stack, types) {
+  let newStack = [];
+  for (let i = 0; i < stack.length; i++) {
+    // check if the next entry matches up with one of the specified operators
+    if (types.indexOf(stack[i]) != -1) {
+      // pop the last operand off the new Stack and do the operation by looking it up in the operators object
+      newStack.push(operators[stack[i]](newStack.pop(),stack[i+1]));
+      // skip forward once
+      i++;
+    // otherwise push the next operand onto the new stack
+    } else newStack.push(stack[i]);
+  }
+  return newStack;
 }
