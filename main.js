@@ -22,36 +22,32 @@ $('document').ready(function() {
         temp = '';
       }
       temp += val;
-      // display the number so far
-      $("#display").html(stack.join('') + temp);
       
     // Clear all calculator contents
     } else if (val === 'AC') {
       stack = [];
       temp = '';
       currentTotal = 0;
-      $("#display").html(currentTotal);
 
     // Clear last entry
     } else if (val === 'CE') {
       temp = '';
-      $("#display").html(stack.join('') || 0);
       
     // add operator
     } else if (operators.hasOwnProperty(val)) {
-      stack.push(temp);
+      stack.push(temp || currentTotal);
       stack.push(val);
       temp = '';
-      $("#display").html(stack.join(''));
 
     // evaluate calculation
     } else if (val === '=') {
       stack.push(temp);
       currentTotal = evaluate();
-      $("#display").html(currentTotal);
       stack = [];
-      temp = '' + currentTotal;
+      temp = '';
     }
+    // display calculation string so far
+    $("#display").html((stack.join('') + temp) || currentTotal);
   });
 });
 
@@ -60,7 +56,7 @@ function evaluate() {
   performType(['^']);
   performType(['x', '/']);
   performType(['+','-']);
-  return stack.pop() || "something's wrong";
+  return ('' + stack.pop()) || "something's wrong";
 }
 
 // this loops over the stack and performs the specified operations
