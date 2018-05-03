@@ -65,9 +65,9 @@ function performType(types) {
   for (let i = 0; i < stack.length; i++) {
     // check if the next entry matches up with one of the specified operators
     if (types.indexOf(stack[i]) != -1) {
-      // pop the last operand off the new Stack and do the operation by looking it up in the operators object
+      // pop the last operand off the new stack and do the operation by looking it up in the operators object
       newStack.push(operators[stack[i]](newStack.pop(),stack[i+1]));
-      // skip forward once
+      // skip forward once to account for the second operand
       i++;
     // otherwise push the next operand onto the new stack
     } else newStack.push(stack[i]);
