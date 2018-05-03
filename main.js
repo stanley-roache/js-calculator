@@ -18,7 +18,7 @@ $('document').ready(function() {
     var val = $(this).text();
 
     // Stack the number into temp
-    if (!isNaN(val) || val === '.') {
+    if (/[0-9.]/.test(val)) {
       if (currentTotal) {
         currentTotal = 0;
         temp = '';
@@ -46,7 +46,7 @@ $('document').ready(function() {
       temp = '';
       $("#display").html(stack.join(''));
 
-    // Got the equals sign, perform calculation
+    // evaluate calculation
     } else if (val === '=') {
       stack.push(temp);
 
@@ -59,6 +59,7 @@ $('document').ready(function() {
   });
 });
 
+// takes array of entries and evaluates
 function evaluate(stack) {
   let alterStack = [];
   // iterate over and perform all ^ operations
