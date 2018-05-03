@@ -37,7 +37,7 @@ $('document').ready(function() {
     // Clear last entry
     } else if (val === 'CE') {
       temp = '';
-      $("#display").val(stack.join(''));
+      $("#display").html(stack.join('') || 0);
       
     // add operator
     } else if (operators.hasOwnProperty(val)) {
@@ -84,5 +84,5 @@ function evaluate(stack) {
   }
   // clear stack
   stack = [];
-  return result;
+  return result || "something's wrong";
 }
