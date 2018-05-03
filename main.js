@@ -15,7 +15,6 @@ $('document').ready(function() {
   $("button").click(function() {
     // store button value
     var val = $(this).text();
-
     // Stack the number into temp
     if (/[0-9.]/.test(val)) {
       if (currentTotal) {
@@ -48,9 +47,7 @@ $('document').ready(function() {
     // evaluate calculation
     } else if (val === '=') {
       stack.push(temp);
-
-      currentTotal = evaluate(stack);
-
+      currentTotal = evaluate();
       $("#display").html(currentTotal);
       stack = [];
       temp = '' + currentTotal;
@@ -59,16 +56,15 @@ $('document').ready(function() {
 });
 
 // takes array of entries and evaluates
-function evaluate(stack) {
-  stack = performType(stack, ['^']);
-  stack = performType(stack, ['x', '/']);
-  stack = performType(stack, ['+','-']);
-  result = stack.pop();
-  return result || "something's wrong";
+function evaluate() {
+  performType(['^']);
+  performType(['x', '/']);
+  performType(['+','-']);
+  return stack.pop() || "something's wrong";
 }
 
 // this loops over the stack and performs the specified operations
-function performType(stack, types) {
+function performType(types) {
   let newStack = [];
   for (let i = 0; i < stack.length; i++) {
     // check if the next entry matches up with one of the specified operators
@@ -80,5 +76,5 @@ function performType(stack, types) {
     // otherwise push the next operand onto the new stack
     } else newStack.push(stack[i]);
   }
-  return newStack;
+  stack = newStack.slice();
 }
