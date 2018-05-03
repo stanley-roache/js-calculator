@@ -1,13 +1,30 @@
+/* body {
+  font-size: 4em;
+} */
+
 .row {
   display: flex;
+  margin-top: 0.2em;
+}
+
+.button-house {
+  width: 50px;
 }
 
 button {
-  width: 40px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
-button.doubleWide {
-  width: 80px;
+.button-house.doubleWide {
+  width: 100px;
+}
+
+.button-house.doubleWide > button {
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
 }
 
 .container {
