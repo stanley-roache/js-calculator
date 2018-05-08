@@ -15,32 +15,32 @@ $('document').ready(function() {
   $("button").click(function() {
     // store button value
     var val = $(this).text();
-    // Stack the number into temp
+    // if the button pressed starts or continues a single number
     if (/[0-9.]/.test(val)) {
       if (currentTotal) {
         currentTotal = 0;
         temp = '';
       }
       temp += val;
-    // Clear all calculator contents
+    // the button pressed is not part of a number
     } else {
+      // add whatever is in temp to stack
+      if (temp) stack.push(temp);
+      // Clear all calculator contents
       if (val === 'AC') {
         stack = [];
         temp = '';
         currentTotal = 0;
       // add operator
       } else if (operators.hasOwnProperty(val)) {
-        if (temp) stack.push(temp);
-        else if (stack.length == 0) stack.push(currentTotal);
+        if (stack.length == 0) stack.push(currentTotal);
         stack.push(val);
       // evaluate calculation
       } else if (val === '=') {
-        if (temp) stack.push(temp);
-        currentTotal = evaluate(stack);
+        currentTotal = evaluate(stack) || currentTotal;
         stack = [];
       // it's a bracket
       } else if (val == ')' || val == '(') {
-        if (temp) stack.push(temp);
         stack.push(val);
       }
       // since temp always gets cleared and this is the sole function of 'CE' it doesn't need it's own statement set
@@ -57,13 +57,14 @@ function evaluate(stack) {
   let outerExpression = [],
       innerExpression = [];
   while (stack.length > 0) {
+    // check for nested expressions
     if (stack[0] == '(') {
       // get rid of bracket
       stack.shift();
       // iniate variable to track nested brackets if any
       let counter = 1;
       // push everything inside bracket pair to inner expression
-      while (counter) {
+      while (counter && current) {
         // get next entry
         let current = stack.shift();
         if (current == '(') counter++;
@@ -80,7 +81,7 @@ function evaluate(stack) {
   stack = performType(outerExpression, ['^']);
   stack = performType(stack, ['x', '/']);
   stack = performType(stack, ['+','-']);
-  return ('' + stack.pop()) || "something's wrong";
+  return (stack.length == 1) ? '' + stack.pop() : "something's wrong";
 }
 
 // this loops over the stack and performs the specified operations
