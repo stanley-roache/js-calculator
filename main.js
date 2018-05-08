@@ -97,5 +97,5 @@ function performType(stack, types) {
     // otherwise push the next operand onto the new stack
     } else newStack.push(stack[i]);
   }
-  return newStack.slice();
+  return newStack;
 }
