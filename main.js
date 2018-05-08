@@ -61,7 +61,7 @@ function evaluate(stack) {
     // check for nested expressions
     if (stack[0] == '(') {
       // get rid of bracket
-      stack.shift();
+      let current = stack.shift();
       // iniate variable to track nested brackets if any
       let counter = 1;
       // push everything inside bracket pair to inner expression
