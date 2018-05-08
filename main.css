@@ -32,11 +32,13 @@ button {
 }
 
 #calculator {
-  width: 160px;
+  width: 200px;
   display: inline-block;
 }
 
 #display {
-  width: 100%;
+  width: 195px;
   text-align: right;
+  margin-right: 5px;
+  overflow: hidden;
 }

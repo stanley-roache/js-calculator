@@ -22,38 +22,32 @@ $('document').ready(function() {
         temp = '';
       }
       temp += val;
-      
     // Clear all calculator contents
-    } else if (val === 'AC') {
-      stack = [];
-      temp = '';
-      currentTotal = 0;
-
-    // Clear last entry
-    } else if (val === 'CE') {
-      temp = '';
-      
-    // add operator
-    } else if (operators.hasOwnProperty(val)) {
-      if (temp) stack.push(temp);
-      else if (stack.length == 0) stack.push(currentTotal);
-      stack.push(val);
-      temp = '';
-
-    // evaluate calculation
-    } else if (val === '=') {
-      if (temp) stack.push(temp);
-      currentTotal = evaluate(stack);
-      stack = [];
-      temp = '';
-    // it's a bracket
     } else {
-      if (temp) stack.push(temp);
-      stack.push(val);
+      if (val === 'AC') {
+        stack = [];
+        temp = '';
+        currentTotal = 0;
+      // add operator
+      } else if (operators.hasOwnProperty(val)) {
+        if (temp) stack.push(temp);
+        else if (stack.length == 0) stack.push(currentTotal);
+        stack.push(val);
+      // evaluate calculation
+      } else if (val === '=') {
+        if (temp) stack.push(temp);
+        currentTotal = evaluate(stack);
+        stack = [];
+      // it's a bracket
+      } else if (val == ')' || val == '(') {
+        if (temp) stack.push(temp);
+        stack.push(val);
+      }
+      // since temp always gets cleared and this is the sole function of 'CE' it doesn't need it's own statement set
       temp = '';
     }
     // display calculation string so far
-    $("#display").html((stack.join('') + temp) || currentTotal);
+    $("#display").html((stack.join('') + temp).slice(-20) || currentTotal);
   });
 });
 
