@@ -68,6 +68,7 @@ function evaluate(stack) {
       while (counter && current) {
         // get next entry
         let current = stack.shift();
+        // adjust nested bracket counter
         if (current == '(') counter++;
         else if (current == ')') counter--;
         if (counter) innerExpression.push(current);
