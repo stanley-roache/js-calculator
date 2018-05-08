@@ -35,15 +35,21 @@ $('document').ready(function() {
       
     // add operator
     } else if (operators.hasOwnProperty(val)) {
-      stack.push(temp || currentTotal);
+      if (temp) stack.push(temp);
+      else if (stack.length == 0) stack.push(currentTotal);
       stack.push(val);
       temp = '';
 
     // evaluate calculation
     } else if (val === '=') {
-      stack.push(temp);
-      currentTotal = evaluate();
+      if (temp) stack.push(temp);
+      currentTotal = evaluate(stack);
       stack = [];
+      temp = '';
+    // it's a bracket
+    } else {
+      if (temp) stack.push(temp);
+      stack.push(val);
       temp = '';
     }
     // display calculation string so far
@@ -52,15 +58,39 @@ $('document').ready(function() {
 });
 
 // takes array of entries and evaluates
-function evaluate() {
-  performType(['^']);
-  performType(['x', '/']);
-  performType(['+','-']);
+function evaluate(stack) {
+  // deal with brackets through nested 'evaluate' calls
+  let outerExpression = [],
+      innerExpression = [];
+  while (stack.length > 0) {
+    if (stack[0] == '(') {
+      // get rid of bracket
+      stack.shift();
+      // iniate variable to track nested brackets if any
+      let counter = 1;
+      // push everything inside bracket pair to inner expression
+      while (counter) {
+        // get next entry
+        let current = stack.shift();
+        if (current == '(') counter++;
+        else if (current == ')') counter--;
+        if (counter) innerExpression.push(current);
+      }
+      // evaluate inner expression and push result to outer expression as single entry
+      outerExpression.push(evaluate(innerExpression));
+    } else {
+      // send the element to the outer expression
+      outerExpression.push(stack.shift()); 
+    }
+  }
+  stack = performType(outerExpression, ['^']);
+  stack = performType(stack, ['x', '/']);
+  stack = performType(stack, ['+','-']);
   return ('' + stack.pop()) || "something's wrong";
 }
 
 // this loops over the stack and performs the specified operations
-function performType(types) {
+function performType(stack, types) {
   let newStack = [];
   for (let i = 0; i < stack.length; i++) {
     // check if the next entry matches up with one of the specified operators
@@ -72,5 +102,5 @@ function performType(types) {
     // otherwise push the next operand onto the new stack
     } else newStack.push(stack[i]);
   }
-  stack = newStack.slice();
+  return newStack.slice();
 }
