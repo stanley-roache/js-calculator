@@ -11,7 +11,7 @@ var stack = [],
 
 // When the DOM is loaded
 $('document').ready(function() {
-  // add as listener to all buttons
+  // add as click listener to all buttons
   $("button").click(function() {
     // store button value
     var val = $(this).text();
@@ -51,9 +51,10 @@ $('document').ready(function() {
   });
 });
 
+
+
 // takes array of entries and evaluates
 function evaluate(stack) {
-  // deal with brackets through nested 'evaluate' calls
   let outerExpression = [],
       innerExpression = [];
   while (stack.length > 0) {
@@ -78,14 +79,15 @@ function evaluate(stack) {
       outerExpression.push(stack.shift()); 
     }
   }
-  stack = performType(outerExpression, ['^']);
-  stack = performType(stack, ['x', '/']);
-  stack = performType(stack, ['+','-']);
+  // perform operations by order of precedence
+  stack = performOperationByType(outerExpression, ['^']);
+  stack = performOperationByType(stack, ['x', '/']);
+  stack = performOperationByType(stack, ['+','-']);
   return (stack.length == 1) ? '' + stack.pop() : "something's wrong";
 }
 
 // this loops over the stack and performs the specified operations
-function performType(stack, types) {
+function performOperationByType(stack, types) {
   let newStack = [];
   for (let i = 0; i < stack.length; i++) {
     // check if the next entry matches up with one of the specified operators
