@@ -26,24 +26,24 @@ $('document').ready(function() {
     } else {
       // add whatever is in temp to stack
       if (temp) stack.push(temp);
-      // Clear all calculator contents
+      // AC button - clear all calculator contents
       if (val === 'AC') {
         stack = [];
         temp = '';
         currentTotal = 0;
-      // add operator
+      // Any operator button
       } else if (operators.hasOwnProperty(val)) {
         if (stack.length == 0) stack.push(currentTotal);
         stack.push(val);
-      // evaluate calculation
+      // = button - evaluate calculation
       } else if (val === '=') {
         currentTotal = evaluate(stack) || currentTotal;
         stack = [];
-      // it's a bracket
+      // '(' or ')'
       } else if (val == ')' || val == '(') {
         stack.push(val);
       }
-      // since temp always gets cleared and this is the sole function of 'CE' it doesn't need it's own statement set
+      // CE button - since temp always gets cleared and this is the sole function of 'CE' it doesn't need it's own statement set
       temp = '';
     }
     // display calculation string so far
@@ -51,14 +51,13 @@ $('document').ready(function() {
   });
 });
 
-
-
 // takes array of entries and evaluates
 function evaluate(stack) {
   let outerExpression = [],
       innerExpression = [];
+  // this while loop checks for brackets and prioritises the contained expression 
+  // by passing it to another instance of evaluate
   while (stack.length > 0) {
-    // check for nested expressions
     if (stack[0] == '(') {
       // get rid of bracket
       let current = stack.shift();
@@ -73,7 +72,7 @@ function evaluate(stack) {
         else if (current == ')') counter--;
         if (counter) innerExpression.push(current);
       }
-      // evaluate inner expression and push result to outer expression as single entry
+      // evaluate braacketed expression separately and push result to outer expression as single entry
       outerExpression.push(evaluate(innerExpression));
     } else {
       // send the element to the outer expression
