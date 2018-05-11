@@ -42,8 +42,9 @@ $('document').ready(function() {
       // '(' or ')'
       } else if (val == ')' || val == '(') {
         stack.push(val);
+      } else if (val == 'CE') {
+        stack.pop();
       }
-      // CE button - since temp always gets cleared and this is the sole function of 'CE' it doesn't need it's own statement set
       temp = '';
     }
     // display calculation string so far
@@ -66,7 +67,7 @@ function evaluate(stack) {
       // push everything inside bracket pair to inner expression
       while (counter && current) {
         // get next entry
-        let current = stack.shift();
+        current = stack.shift();
         // adjust nested bracket counter
         if (current == '(') counter++;
         else if (current == ')') counter--;

@@ -5,6 +5,7 @@
 .row {
   display: flex;
   margin-top: 0.2em;
+  margin-bottom: 10px;;
 }
 
 .button-house {
@@ -15,6 +16,14 @@ button {
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
+  border-radius: 1em;
+  border-style: solid;
+  border-color: #444444;
+  border-width: 1px;
+}
+
+button:focus {
+  outline: 0;
 }
 
 .button-house.doubleWide {
@@ -27,6 +36,13 @@ button {
   margin-right: 5%;
 }
 
+button.control {
+  background-color: #CC6600;
+}
+
+button.number {
+  background-color: #6699CC;
+}
 .container {
   text-align: center;
 }
@@ -34,11 +50,22 @@ button {
 #calculator {
   width: 200px;
   display: inline-block;
+  background-color: #DCDCDC;
+  border-radius: 10px;
+  border-style: solid;
+  border-color: #444444;
+  border-width: 1px;
 }
 
 #display {
-  width: 195px;
+  width: auto;
   text-align: right;
-  margin-right: 5px;
+  margin: 15px;
+  padding: 5px;
   overflow: hidden;
+  border-radius: 5px;
+  background-color: #EEEEEE;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #777777;
 }
