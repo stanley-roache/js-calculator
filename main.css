@@ -4,8 +4,8 @@
 
 .row {
   display: flex;
-  margin-top: 0.2em;
-  margin-bottom: 10px;;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .button-house {
@@ -16,7 +16,7 @@ button {
   width: 80%;
   margin-left: 10%;
   margin-right: 10%;
-  border-radius: 1em;
+  border-radius: 10px;
   border-style: solid;
   border-color: #444444;
   border-width: 1px;
