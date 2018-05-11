@@ -31,6 +31,9 @@ $('document').ready(function() {
         stack = [];
         temp = '';
         currentTotal = 0;
+      // CE button, clear last entry
+      } else if (val == 'CE') {
+        stack.pop();
       // Any operator button
       } else if (operators.hasOwnProperty(val)) {
         if (stack.length == 0) stack.push(currentTotal);
@@ -42,8 +45,6 @@ $('document').ready(function() {
       // '(' or ')'
       } else if (val == ')' || val == '(') {
         stack.push(val);
-      } else if (val == 'CE') {
-        stack.pop();
       }
       temp = '';
     }
